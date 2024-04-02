@@ -14,6 +14,7 @@ export default function socialMedia() {
           className="icon-button github"
           target="_blank"
           rel="noopener noreferrer"
+
         >
           <i className="fab fa-github"></i>
           <span></span>
