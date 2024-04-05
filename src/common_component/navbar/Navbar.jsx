@@ -25,12 +25,7 @@ function Navbar() {
     return (
         <Headroom>
             <header className={isDark ? "dark-menu header" : "header"}>
-                <div className="d-flex">
-                    <img src={require("../../assets/images/logo192.png")} alt="" />
-                    <a href="/" className="logo ">
-                        <span className={isDark ? "logo-name-dark" : "logo-name-white"}>{greeting.username}</span>
-                    </a>
-                </div>
+                
                 <input className="menu-btn" type="checkbox" id="menu-btn" />
                 <label
                     className="menu-icon"
@@ -40,6 +35,7 @@ function Navbar() {
                     <span className={isDark ? "navicon navicon-dark" : "navicon"}></span>
                 </label>
                 <ul className={isDark ? "dark-menu menu" : "menu"}>
+                    
                     {viewSkills && (
                         <li>
                             <a href="#skills">Skills</a>
@@ -60,6 +56,12 @@ function Navbar() {
                             <a href="#achievements">Achievements</a>
                         </li>
                     )}
+                    <li>
+                        {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+                        <a>
+                            <ToggleSwitch />
+                        </a>
+                    </li>
                     {viewBlog && (
                         <li>
                             <a href="#blogs">Blogs</a>
@@ -73,13 +75,14 @@ function Navbar() {
                     <li>
                         <a href="#contact">Contact Me</a>
                     </li>
-                    <li>
-                        {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                        <a>
-                            <ToggleSwitch />
-                        </a>
-                    </li>
                 </ul>
+
+                <div className="d-flex">
+                    <img src={require("../../assets/images/logo192.png")} alt="" />
+                    <a href="/" className="logo ">
+                        <span className={isDark ? "logo-name-dark" : "logo-name-white"}>{greeting.username}</span>
+                    </a>
+                </div>
             </header>
         </Headroom>
     );

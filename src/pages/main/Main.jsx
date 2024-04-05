@@ -4,6 +4,8 @@ import Navbar from '../../common_component/navbar/Navbar';
 import { StyleProvider } from "../../contexts/StyleContext";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
 import { splashScreen } from '../../portfolio';
+import "./Main.scss";
+import Greeting from './greeting/Greeting';
 
 export default function Main() {
   const darkPref = window.matchMedia("(prefers-color-scheme: dark)");
@@ -26,7 +28,7 @@ export default function Main() {
   };
 
   return (
-    <div>
+    <div className={isDark ? "dark-mode" : null}>
       <StyleProvider value={{ isDark: isDark, changeTheme: changeTheme }}>
         {
           isShowingSplashAnimation && splashScreen.enabled
@@ -35,6 +37,7 @@ export default function Main() {
             :
             <>
               <Navbar />
+              <Greeting/>
             </>
 
         }
