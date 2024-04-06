@@ -27,6 +27,7 @@
   justify-content: center;
   width: 500px;
   margin: 10px;
+  scroll-snap-align: start;
 }
 .project-card-light {
   background-color: $lightBackground2;
@@ -67,6 +68,7 @@
   // grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   // gap: 1rem 1rem;
   overflow-x: auto;
+  scroll-snap-type: x mandatory; 
   justify-content: space-between;
 }
 
@@ -88,9 +90,37 @@
   transition: 0.2s ease-in;
 }
 
+.d-flex{
+  display: flex;
+}
+
+.justify-between{
+  justify-content: space-between;
+}
+
+.angleContainer{
+  position: relative;
+  display: none;
+}
+
+.fa-angle-left {
+  position: absolute;
+  top: 270px;
+}
+
+.fa-angle-right {
+  position: absolute;
+  right: 0;
+  top: 270px;
+}
+
 @media (max-width: 768px) {
   .project-subtitle {
     font-size: 16px;
     text-align: center;
+  }
+  .angleContainer{
+    position: relative;
+    display: flex;
   }
 }

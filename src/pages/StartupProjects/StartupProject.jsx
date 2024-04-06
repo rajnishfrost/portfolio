@@ -20,17 +20,22 @@ export default function StartupProject() {
     return null;
   }
 
-  // const scrollRight = () => {
-  //   if (containerRef.current) {
-  //     containerRef.current.scrollLeft += 350; // Adjust scroll amount as needed
-  //   }
-  // };
+  const scrollLeft = () => {
+    if (containerRef.current) {
+      containerRef.current.scrollLeft -= 300; // Adjust scroll amount as needed
+    }
+  };
+
+  const scrollRight = () => {
+    if (containerRef.current) {
+      containerRef.current.scrollLeft += 300; // Adjust scroll amount as needed
+    }
+  };
 
   return (
     <Fade left duration={1000}>
       <div className="main" id="projects">
         <div>
-          {/* <button className="scroll-button" onClick={scrollRight}>&gt;</button> */}
           <h1 className="skills-heading">{bigProjects.title}</h1>
           <p
             className={
@@ -41,7 +46,10 @@ export default function StartupProject() {
           >
             {bigProjects.subtitle}
           </p>
-
+          <div className="d-flex justify-between angleContainer">
+            <i className="fas fa-angle-left " style={{fontSize : "40px"}} onClick={scrollLeft}></i>
+            <i className="fas fa-angle-right " style={{fontSize : "40px"}} onClick={scrollRight}></i>
+          </div>
           <div className="projects-container" ref={containerRef}>
             {bigProjects.projects.map((project, i) => {
               return (
