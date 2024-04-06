@@ -18,7 +18,7 @@ export default function Loading() {
         <div className="sk-circle11 sk-child"></div>
         <div className="sk-circle12 sk-child"></div>
       </div>
-      <h1 className="title-name">Rajnish Yadav</h1>
+
     </div>
   );
 }

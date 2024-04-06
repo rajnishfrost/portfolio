@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import Loading from '../../common_component/loading/Loading';
 import Navbar from '../../common_component/navbar/Navbar';
+import Skills from '../skills/Skills';
 import { StyleProvider } from "../../contexts/StyleContext";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
 import { splashScreen } from '../../portfolio';
 import "./Main.scss";
-import Greeting from './greeting/Greeting';
+import Greeting from '../greeting/Greeting';
+import StartupProject from "../StartupProjects/StartupProject"
+import Profile from "../profile/Profile"
+import Top from "../topbutton/Top";
+import loadingHand from "../../assets/lottie/loadingHand.json";
+import DisplayLottie from '../../common_component/displayLottie/DisplayLottie';
 
 export default function Main() {
   const darkPref = window.matchMedia("(prefers-color-scheme: dark)");
@@ -33,11 +38,19 @@ export default function Main() {
         {
           isShowingSplashAnimation && splashScreen.enabled
             ?
-              <Loading />
+            <div className='loading-hand-outer'>
+              <div className='loading-hand-inner'>
+                <DisplayLottie animationData={loadingHand} />
+              </div>
+            </div>
             :
             <>
               <Navbar />
-              <Greeting/>
+              <Greeting />
+              <Skills />
+              <StartupProject />
+              <Profile />
+              <Top />
             </>
 
         }

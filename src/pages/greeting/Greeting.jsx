@@ -2,13 +2,13 @@ import React, {useContext} from "react";
 import {Fade} from "react-reveal";
 import emoji from "react-easy-emoji";
 import "./Greeting.scss";
-import landingPerson from "../../../assets/lottie/landingFun.json";
-import DisplayLottie from "../../../common_component/displayLottie/DisplayLottie";
-import SocialMedia from "../../../common_component/socialMedia/SocialMedia";
-import Button from "../../../common_component/button/Button";
+import landingPerson from "../../assets/lottie/landingFun.json";
+import DisplayLottie from "../../common_component/displayLottie/DisplayLottie";
+import SocialMedia from "../../common_component/socialMedia/SocialMedia";
+import Button from "../../common_component/button/Button";
 
-import {illustration, greeting} from "../../../portfolio";
-import StyleContext from "../../../contexts/StyleContext";
+import {illustration, greeting} from "../../portfolio";
+import StyleContext from "../../contexts/StyleContext";
 
 export default function Greeting() {
   const {isDark} = useContext(StyleContext);

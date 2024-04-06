@@ -34,7 +34,7 @@ const greeting = {
 
 const socialMediaLinks = {
   github: "https://github.com/rajnishfrost",
-  linkedin: "https://www.linkedin.com/in/saadpasta/",
+  linkedin: "https://www.linkedin.com/in/rajnish-yadav/",
   gmail: "",
   gitlab: "",
   facebook: "",
@@ -48,76 +48,99 @@ const socialMediaLinks = {
 // Skills Section
 
 const skillsSection = {
-  title: "What I do",
-  subTitle: "CRAZY FULL STACK DEVELOPER WHO WANTS TO EXPLORE EVERY TECH STACK",
+  title: "What I Know",
+  subTitle: "",
   skills: [
-    emoji(
-      "⚡ Develop highly interactive Front end / User Interfaces for your web and mobile applications"
-    ),
-    emoji("⚡ Progressive Web Applications ( PWA ) in normal and SPA Stacks"),
-    emoji(
-      "⚡ Integration of third party services such as Firebase/ AWS / Digital Ocean"
-    )
+    emoji(""),
+    emoji(""),
+    emoji("")
   ],
 
   /* Make Sure to include correct Font Awesome Classname to view your icon
 https://fontawesome.com/icons?d=gallery */
 
-  softwareSkills: [
+frontend: [
     {
-      skillName: "html-5",
+      skillName: "HTML-5",
       fontAwesomeClassname: "fab fa-html5"
     },
     {
-      skillName: "css3",
+      skillName: "CSS",
       fontAwesomeClassname: "fab fa-css3-alt"
     },
     {
-      skillName: "sass",
-      fontAwesomeClassname: "fab fa-sass"
+      skillName: "SCSS",
+      fontAwesomeClassname: "fab fa-css3"
     },
     {
-      skillName: "JavaScript",
-      fontAwesomeClassname: "fab fa-js"
+      skillName: "ReactJS",
+      fontAwesomeClassname: "fab fa-react" 
     },
     {
-      skillName: "reactjs",
-      fontAwesomeClassname: "fab fa-react"
-    },
+      skillName: "NextJS",
+      fontAwesomeClassname: "fas fa-shapes" 
+    }
+  ],
+
+  backend: [
     {
-      skillName: "nodejs",
+      skillName: "NodeJS",
       fontAwesomeClassname: "fab fa-node"
     },
     {
-      skillName: "swift",
-      fontAwesomeClassname: "fab fa-swift"
-    },
-    {
-      skillName: "npm",
-      fontAwesomeClassname: "fab fa-npm"
-    },
-    {
-      skillName: "sql-database",
+      skillName: "MongoDb",
       fontAwesomeClassname: "fas fa-database"
     },
     {
-      skillName: "aws",
-      fontAwesomeClassname: "fab fa-aws"
+      skillName: "ExpressJS",
+      fontAwesomeClassname: "fas fa-shipping-fast"
     },
     {
-      skillName: "firebase",
-      fontAwesomeClassname: "fas fa-fire"
+      skillName: "NextJS",
+      fontAwesomeClassname: "fas fa-dragon"
     },
     {
-      skillName: "python",
-      fontAwesomeClassname: "fab fa-python"
+      skillName: "Vanilla JavaScript",
+      fontAwesomeClassname: "fab fa-js" 
     },
     {
-      skillName: "docker",
-      fontAwesomeClassname: "fab fa-docker"
+      skillName: "TypeScript",
+      fontAwesomeClassname: "fas fa-keyboard" 
     }
   ],
-  display: true // Set false to hide this section, defaults to true
+
+  blockchain: [
+    {
+      skillName: "Ethereum Blockchain",
+      fontAwesomeClassname: "fab fa-ethereum"
+    },
+    {
+      skillName: "Solidity",
+      fontAwesomeClassname: "fab fa-staylinked"
+    },
+    {
+      skillName: "Web3JS",
+      fontAwesomeClassname: "fas fa-globe"
+    },
+    {
+      skillName: "EtherJS",
+      fontAwesomeClassname: "fas fa-cloud"
+    },
+    {
+      skillName: "Smart Contract",
+      fontAwesomeClassname: "fas fa-clipboard"
+    },
+    {
+      skillName: "Truffle",
+      fontAwesomeClassname: "fas fa-cookie"
+    }
+    ,
+    {
+      skillName: "Metamask",
+      fontAwesomeClassname: "fas fa-wallet"
+    }
+  ],
+  display: true // Set false to hide this section, defaults to true  
 };
 
 // Education Section
@@ -212,32 +235,54 @@ const openSource = {
 // Some big projects you have worked on
 
 const bigProjects = {
-  title: "Big Projects",
-  subtitle: "SOME STARTUPS AND COMPANIES THAT I HELPED TO CREATE THEIR TECH",
+  title: " Projects",
+  subtitle: "SOME PROJECT SAMPLE",
   projects: [
     {
-      image: require("./assets/images/saayaHealthLogo.webp"),
-      projectName: "Saayahealth",
-      projectDesc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
+      image: require("./assets/images/cart.jpg"),
+      projectName: "E-Commerce",
+      projectDesc: "This is a e-commerce clone website",
       footerLink: [
         {
           name: "Visit Website",
-          url: "http://saayahealth.com/"
+          url: "https://e-commerceindia.netlify.app/"
         }
         //  you can add extra buttons here.
       ]
     },
     {
-      image: require("./assets/images/nextuLogo.webp"),
-      projectName: "Nextu",
-      projectDesc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
+      image: require("./assets/images/chain.png"),
+      projectName: "Cadena",
+      projectDesc: "Cadena serves as a valuable tool for B2B sales professionals, akin to a Waze for salespeople.",
       footerLink: [
         {
           name: "Visit Website",
-          url: "http://nextu.se/"
+          url: "https://cadena.dev.vinove.com/"
         }
       ]
-    }
+    },{
+      image: require("./assets/images/event.png"),
+      projectName: "Event Management",
+      projectDesc: "This project is an event management website that offers a range of customize packages for diverse occasions such as anniversaries, birthdays, corporate events, weddings, and kitty parties.",
+      footerLink: [
+        {
+          name: "Visit Website",
+          url: "https://eventmanagement.dev.vinove.com/"
+        }
+        //  you can add extra buttons here.
+      ]
+    },
+    {
+      image: "https://media.licdn.com/dms/image/D4D0BAQHLJPKF2NHf-A/company-logo_200_200/0/1684491470971/propftx_logo?e=1720656000&v=beta&t=fBOSaMZY_hsLMY-4yIpEGj8MQmzTlg7ouleJfAtGgmM",
+      projectName: "PropFTX",
+      projectDesc: "World's first fractional real estate marketplace. Powered by AI & Blockchain",
+      footerLink: [
+        {
+          name: "Visit Website",
+          url: "https://www.propftx.com/"
+        }
+      ]
+    },
   ],
   display: true // Set false to hide this section, defaults to true
 };
@@ -360,21 +405,15 @@ const podcastSection = {
 };
 
 const contactInfo = {
-  title: emoji("Contact Me ☎️"),
-  subtitle:
-    "Discuss a project or just want to say hi? My Inbox is open for all.",
-  number: "+92-0000000000",
-  email_address: "saadpasta70@gmail.com"
+  title: emoji("Connect me here"),
+  subtitle: "",
+  number: "+91-7275158108",
+  email_address: "rajnishfrost@gmail.com"
 };
 
-// Twitter Section
 
-const twitterDetails = {
-  userName: "twitter", //Replace "twitter" with your twitter username without @
-  display: true // Set true to display this section, defaults to false
-};
 
-const isHireable = false; // Set false if you are not looking for a job. Also isHireable will be display as Open for opportunities: Yes/No in the GitHub footer
+const isHireable = false; 
 
 export {
   illustration,
@@ -392,6 +431,6 @@ export {
   talkSection,
   podcastSection,
   contactInfo,
-  twitterDetails,
+
   isHireable
 };
