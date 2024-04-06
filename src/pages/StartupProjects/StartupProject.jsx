@@ -1,10 +1,12 @@
-import React, {useContext} from "react";
+import React, { useContext, useRef } from "react";
 import "./StartupProjects.scss";
-import {bigProjects} from "../../portfolio";
-import {Fade} from "react-reveal";
+import { bigProjects } from "../../portfolio";
+import { Fade } from "react-reveal";
 import StyleContext from "../../contexts/StyleContext";
 
 export default function StartupProject() {
+  const containerRef = useRef(null);
+
   function openUrlInNewTab(url) {
     if (!url) {
       return;
@@ -13,14 +15,22 @@ export default function StartupProject() {
     win.focus();
   }
 
-  const {isDark} = useContext(StyleContext);
+  const { isDark } = useContext(StyleContext);
   if (!bigProjects.display) {
     return null;
   }
+
+  // const scrollRight = () => {
+  //   if (containerRef.current) {
+  //     containerRef.current.scrollLeft += 350; // Adjust scroll amount as needed
+  //   }
+  // };
+
   return (
     <Fade left duration={1000}>
       <div className="main" id="projects">
         <div>
+          {/* <button className="scroll-button" onClick={scrollRight}>&gt;</button> */}
           <h1 className="skills-heading">{bigProjects.title}</h1>
           <p
             className={
@@ -32,7 +42,7 @@ export default function StartupProject() {
             {bigProjects.subtitle}
           </p>
 
-          <div className="projects-container">
+          <div className="projects-container" ref={containerRef}>
             {bigProjects.projects.map((project, i) => {
               return (
                 <div
