@@ -248,7 +248,8 @@ const bigProjects = {
           url: "https://e-commerceindia.netlify.app/"
         }
         //  you can add extra buttons here.
-      ]
+      ],
+      category :  "Office"
     },
     {
       image: require("./assets/images/chain.png"),
@@ -259,7 +260,8 @@ const bigProjects = {
           name: "Visit Website",
           url: "https://cadena.dev.vinove.com/"
         }
-      ]
+      ],
+      category :  "Office"
     },{
       image: require("./assets/images/event.png"),
       projectName: "Event Management",
@@ -270,7 +272,8 @@ const bigProjects = {
           url: "https://eventmanagement.dev.vinove.com/"
         }
         //  you can add extra buttons here.
-      ]
+      ],
+      category :  "Office"
     },
     {
       image: "https://media.licdn.com/dms/image/D4D0BAQHLJPKF2NHf-A/company-logo_200_200/0/1684491470971/propftx_logo?e=1720656000&v=beta&t=fBOSaMZY_hsLMY-4yIpEGj8MQmzTlg7ouleJfAtGgmM",
@@ -281,7 +284,20 @@ const bigProjects = {
           name: "Visit Website",
           url: "https://www.propftx.com/"
         }
-      ]
+      ],
+      category :  "Office"
+    },
+    {
+      image: "https://pramaacademy.netlify.app/static/media/brokenTeethChild_upscaled.c3722d1fd6a3ab83dc57.jpg",
+      projectName: "Prama Academy",
+      projectDesc: "Unveiling the Profound Advantages of Expert Online Learning for Children",
+      footerLink: [
+        {
+          name: "Visit Website",
+          url: "https://pramaacademy.netlify.app/"
+        }
+      ],
+      category :  "Freelancing"
     },
   ],
   display: true // Set false to hide this section, defaults to true

@@ -1,4 +1,4 @@
-import React, { useContext, useRef } from "react";
+import React, { useContext, useRef, useState } from "react";
 import "./StartupProjects.scss";
 import { bigProjects } from "../../portfolio";
 import { Fade } from "react-reveal";
@@ -6,6 +6,7 @@ import StyleContext from "../../contexts/StyleContext";
 
 export default function StartupProject() {
   const containerRef = useRef(null);
+  const [projectFilter, setProjectFilter] = useState(bigProjects?.projects);
 
   function openUrlInNewTab(url) {
     if (!url) {
@@ -32,6 +33,12 @@ export default function StartupProject() {
     }
   };
 
+  const selectHandle = (e) => {
+    if (e.target.value === "All")
+      return setProjectFilter(bigProjects?.projects)
+      setProjectFilter(bigProjects?.projects?.filter((data) =>{ return data.category === e.target.value}));
+  }
+
   return (
     <Fade left duration={1000}>
       <div className="main" id="projects">
@@ -46,12 +53,22 @@ export default function StartupProject() {
           >
             {bigProjects.subtitle}
           </p>
+          <select  name="" id="" onChange={(e) => selectHandle(e)}>
+            <option value="All" >All</option>
+            {
+              bigProjects?.projects?.filter((obj, index, self) => index === self.findIndex((t) => (t.category === obj.category)))?.map((d) => {
+                return (
+                  <option value={d?.category}>{d?.category}</option>
+                )
+              })
+            }
+          </select>
           <div className="d-flex justify-between angleContainer">
-            <i className="fas fa-angle-left " style={{fontSize : "40px"}} onClick={scrollLeft}></i>
-            <i className="fas fa-angle-right " style={{fontSize : "40px"}} onClick={scrollRight}></i>
+            <i className="fas fa-angle-left " style={{ fontSize: "40px" }} onClick={scrollLeft}></i>
+            <i className="fas fa-angle-right " style={{ fontSize: "40px" }} onClick={scrollRight}></i>
           </div>
           <div className="projects-container" ref={containerRef}>
-            {bigProjects.projects.map((project, i) => {
+            {projectFilter.map((project, i) => {
               return (
                 <div
                   key={i}
