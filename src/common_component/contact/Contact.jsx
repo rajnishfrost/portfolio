@@ -22,7 +22,7 @@ export default function Contact() {
     <Fade bottom duration={1000} distance="20px">
       <div className="main contact-margin-top" id="contact">
         <div className="contact-div-main">
-          <div className="contact-image-div">
+          <div className="contact-image-div" style={{marginTop : "-150px"}}>
             {illustration.animated ? (
               <DisplayLottie animationData={lottie} />
             ) : (

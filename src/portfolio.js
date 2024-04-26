@@ -423,7 +423,7 @@ const podcastSection = {
 const contactInfo = {
   title: emoji("Connect me here"),
   subtitle: "",
-  number: "+91-7275158108",
+  number: "",
   email_address: "rajnishfrost@gmail.com"
 };
 
