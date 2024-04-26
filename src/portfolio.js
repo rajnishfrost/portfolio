@@ -249,7 +249,7 @@ const bigProjects = {
         }
         //  you can add extra buttons here.
       ],
-      category :  "Office"
+      category :  "Personal"
     },
     {
       image: require("./assets/images/chain.png"),
