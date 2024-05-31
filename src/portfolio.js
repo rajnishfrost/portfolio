@@ -299,6 +299,30 @@ const bigProjects = {
       ],
       category :  "Freelancing"
     },
+    {
+      image: "https://cdn.pixabay.com/photo/2015/08/03/13/58/whatsapp-873316_1280.png",
+      projectName: "Open Chat In Whatsapp",
+      projectDesc: "start direct chat to unknow number on whatsapp . no need to save number",
+      footerLink: [
+        {
+          name: "Visit Website",
+          url: "https://openinchat.netlify.app/"
+        }
+      ],
+      category :  "Personal"
+    },
+    {
+      image: "https://wp-api.zipmex.com/wp-content/uploads/2021/11/shutterstock_1866499276.jpg",
+      projectName: "Atomic Swap",
+      projectDesc: "Transfer Coins Between Diffrent Blockchain .",
+      footerLink: [
+        {
+          name: "Visit Website",
+          url: "https://atomic-swap.netlify.app/"
+        }
+      ],
+      category :  "Personal"
+    },
   ],
   display: true // Set false to hide this section, defaults to true
 };

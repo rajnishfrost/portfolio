@@ -19,13 +19,13 @@ export default function Main() {
 
   useEffect(() => {
     if (splashScreen.enabled) {
-      const splashTimer = setTimeout(
-        () => setIsShowingSplashAnimation(false),
-        splashScreen.duration
-      );
-      return () => {
-        clearTimeout(splashTimer);
-      };
+        const splashTimer = setTimeout(
+          () => setIsShowingSplashAnimation(false),
+          splashScreen.duration
+        );
+        return () => {
+          clearTimeout(splashTimer);
+        };
     }
   }, []);
   const changeTheme = () => {
