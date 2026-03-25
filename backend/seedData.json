@@ -1,0 +1,20 @@
+{
+  "profile": {
+    "name": "Rajnish Yadav",
+    "title": "Fullstack Blockchain Developer",
+    "subtitle": "A passionate Fullstack Blockchain developer with experience in building Web3 Applications with Web3js, React, Node.js, and more.",
+    "bio": "I build decentralized applications, smart contracts, and modern web experiences. Passionate about Web3, open-source, and creating impactful technology.",
+    "email": "rajnishfrost@gmail.com",
+    "phone": "+91 XXXXX XXXXX",
+    "location": "India",
+    "resumeLink": "https://drive.google.com/file/d/1ofFdKF_mqscH8WvXkSObnVvC9kK7Ldlu/view?usp=sharing",
+    "socialLinks": {
+      "github": "https://github.com/rajnishfrost",
+      "linkedin": "https://www.linkedin.com/in/rajnish-yadav/",
+      "twitter": "",
+      "medium": ""
+    },
+    "profileImage": "",
+    "isHireable": true
+  }
+}

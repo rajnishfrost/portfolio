@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { FaPlus, FaEdit, FaTrash, FaTimes, FaGithub, FaExternalLinkAlt } from 'react-icons/fa'
+import { FaPlus, FaEdit, FaTrash, FaTimes, FaGithub, FaExternalLinkAlt, FaGripVertical } from 'react-icons/fa'
 import toast from 'react-hot-toast'
-import { getProjects, createProject, updateProject, deleteProject, uploadImage } from '../services/api'
+import { getProjects, createProject, updateProject, deleteProject, reorderProjects, uploadImage } from '../services/api'
+import ImageCropper from '../components/ImageCropper'
 
 const emptyForm = {
   title: '', description: '', category: 'Personal', techStack: '',
@@ -17,6 +18,12 @@ export default function ManageProjects() {
   const [form, setForm] = useState(emptyForm)
   const [submitting, setSubmitting] = useState(false)
   const [deleteId, setDeleteId] = useState(null)
+  const [cropImage, setCropImage] = useState(null)
+  const [imageUploading, setImageUploading] = useState(false)
+
+  // Drag state
+  const dragItem = useRef(null)
+  const dragOverItem = useRef(null)
 
   const fetchData = async () => {
     try {
@@ -57,15 +64,26 @@ export default function ManageProjects() {
     setForm((prev) => ({ ...prev, [name]: type === 'checkbox' ? checked : value }))
   }
 
-  const handleImageUpload = async (e) => {
+  const handleImageSelect = (e) => {
     const file = e.target.files[0]
     if (!file) return
+    const reader = new FileReader()
+    reader.onload = () => setCropImage(reader.result)
+    reader.readAsDataURL(file)
+    e.target.value = ''
+  }
+
+  const handleCropDone = async (croppedFile) => {
+    setCropImage(null)
+    setImageUploading(true)
     try {
-      const res = await uploadImage(file)
-      setForm((prev) => ({ ...prev, image: res.data.url || res.data.path }))
+      const res = await uploadImage(croppedFile)
+      setForm((prev) => ({ ...prev, image: res.data.imageUrl || res.data.url || res.data.path }))
       toast.success('Image uploaded')
     } catch (err) {
       toast.error('Image upload failed')
+    } finally {
+      setImageUploading(false)
     }
   }
 
@@ -111,6 +129,53 @@ export default function ManageProjects() {
     }
   }
 
+  // Drag and drop handlers
+  const handleDragStart = (e, index) => {
+    dragItem.current = index
+    e.dataTransfer.effectAllowed = 'move'
+  }
+
+  const handleDragEnter = (e, index) => {
+    e.preventDefault()
+    dragOverItem.current = index
+  }
+
+  const handleDragOver = (e) => {
+    e.preventDefault()
+    e.dataTransfer.dropEffect = 'move'
+  }
+
+  const handleDrop = async (e) => {
+    e.preventDefault()
+    if (dragItem.current === null || dragOverItem.current === null || dragItem.current === dragOverItem.current) {
+      dragItem.current = null
+      dragOverItem.current = null
+      return
+    }
+
+    const reordered = [...projects]
+    const draggedProject = reordered[dragItem.current]
+    reordered.splice(dragItem.current, 1)
+    reordered.splice(dragOverItem.current, 0, draggedProject)
+    setProjects(reordered)
+
+    const orderedIds = reordered.map(p => p._id)
+    try {
+      await reorderProjects(orderedIds)
+    } catch {
+      toast.error('Reorder failed')
+      fetchData()
+    }
+
+    dragItem.current = null
+    dragOverItem.current = null
+  }
+
+  const handleDragEnd = () => {
+    dragItem.current = null
+    dragOverItem.current = null
+  }
+
   if (loading) {
     return (
       <div className="flex justify-center py-20">
@@ -134,6 +199,7 @@ export default function ManageProjects() {
           <table className="w-full text-sm">
             <thead className="bg-gray-50 dark:bg-dark-lighter">
               <tr>
+                <th className="w-10 px-2 py-3"></th>
                 <th className="text-left px-4 py-3 font-semibold text-gray-700 dark:text-gray-300">Title</th>
                 <th className="text-left px-4 py-3 font-semibold text-gray-700 dark:text-gray-300 hidden md:table-cell">Category</th>
                 <th className="text-left px-4 py-3 font-semibold text-gray-700 dark:text-gray-300 hidden lg:table-cell">Tech Stack</th>
@@ -141,9 +207,23 @@ export default function ManageProjects() {
                 <th className="text-right px-4 py-3 font-semibold text-gray-700 dark:text-gray-300">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-100 dark:divide-dark-lighter">
-              {projects.map((project) => (
-                <tr key={project._id} className="hover:bg-gray-50 dark:hover:bg-dark-lighter/50 transition-colors">
+            <tbody
+              className="divide-y divide-gray-100 dark:divide-dark-lighter"
+              onDragOver={handleDragOver}
+              onDrop={handleDrop}
+            >
+              {projects.map((project, index) => (
+                <tr
+                  key={project._id}
+                  draggable
+                  onDragStart={(e) => handleDragStart(e, index)}
+                  onDragEnter={(e) => handleDragEnter(e, index)}
+                  onDragEnd={handleDragEnd}
+                  className="hover:bg-gray-50 dark:hover:bg-dark-lighter/50 transition-colors cursor-grab active:cursor-grabbing"
+                >
+                  <td className="px-2 py-3 text-center">
+                    <FaGripVertical className="text-gray-300 dark:text-gray-600 mx-auto" size={14} />
+                  </td>
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-3">
                       {project.image ? (
@@ -271,8 +351,25 @@ export default function ManageProjects() {
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Image</label>
-                  <input type="file" accept="image/*" onChange={handleImageUpload} className="w-full text-sm text-gray-500 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-primary/10 file:text-primary file:font-medium hover:file:bg-primary/20 cursor-pointer" />
-                  {form.image && <img src={form.image} alt="Preview" className="mt-2 w-20 h-20 object-cover rounded-lg" />}
+                  <input type="file" accept="image/*" onChange={handleImageSelect} className="w-full text-sm text-gray-500 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-primary/10 file:text-primary file:font-medium hover:file:bg-primary/20 cursor-pointer" />
+                  {imageUploading && (
+                    <div className="mt-2 flex items-center gap-2 text-sm text-primary">
+                      <div className="w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+                      Uploading image...
+                    </div>
+                  )}
+                  {form.image && !imageUploading && (
+                    <div className="mt-2 relative inline-block group">
+                      <img src={form.image} alt="Preview" className="w-full max-w-xs h-32 object-cover rounded-lg border border-gray-200 dark:border-dark-lighter" />
+                      <button
+                        type="button"
+                        onClick={() => setForm((prev) => ({ ...prev, image: '' }))}
+                        className="absolute top-1 right-1 p-1 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                      >
+                        <FaTimes size={10} />
+                      </button>
+                    </div>
+                  )}
                 </div>
                 <label className="flex items-center gap-2 cursor-pointer">
                   <input type="checkbox" name="featured" checked={form.featured} onChange={handleChange} className="w-4 h-4 text-primary rounded focus:ring-primary" />
@@ -286,6 +383,16 @@ export default function ManageProjects() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Image Cropper */}
+      {cropImage && (
+        <ImageCropper
+          imageSrc={cropImage}
+          aspect={16 / 9}
+          onCropDone={handleCropDone}
+          onCancel={() => setCropImage(null)}
+        />
+      )}
 
       {/* Delete confirmation */}
       <AnimatePresence>

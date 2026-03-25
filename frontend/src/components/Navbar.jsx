@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { HiMenu, HiX } from 'react-icons/hi'
 import { FaSun, FaMoon } from 'react-icons/fa'
 import { useTheme } from '../context/ThemeContext'
+import { useProfile } from '../context/ProfileContext'
 
 const navLinks = [
   { to: '/', label: 'Home' },
@@ -14,6 +15,7 @@ const navLinks = [
 
 export default function Navbar() {
   const { darkMode, toggleDarkMode } = useTheme()
+  const { profile } = useProfile()
   const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
 
@@ -40,7 +42,7 @@ export default function Navbar() {
             to="/"
             className="text-2xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent hover:opacity-80 transition-opacity"
           >
-            Rajnish
+            {profile.name?.split(' ')[0] || 'Portfolio'}
           </Link>
 
           {/* Desktop Nav Links */}

@@ -1,5 +1,6 @@
 import { Routes, Route } from 'react-router-dom'
 import { ThemeProvider } from './context/ThemeContext'
+import { ProfileProvider } from './context/ProfileContext'
 import { Toaster } from 'react-hot-toast'
 import PublicLayout from './layouts/PublicLayout'
 import Home from './pages/Home'
@@ -22,6 +23,7 @@ import ProtectedRoute from './components/ProtectedRoute'
 export default function App() {
   return (
     <ThemeProvider>
+      <ProfileProvider>
       <Toaster
         position="top-right"
         toastOptions={{
@@ -49,6 +51,7 @@ export default function App() {
           <Route path="messages" element={<ManageMessages />} />
         </Route>
       </Routes>
+      </ProfileProvider>
     </ThemeProvider>
   )
 }

@@ -15,6 +15,7 @@ import ProjectCard from '../components/ProjectCard'
 import BlogCard from '../components/BlogCard'
 import SkillBadge from '../components/SkillBadge'
 import { getProjects, getBlogs, getSkills, getExperience, getAchievements } from '../services/api'
+import { useProfile } from '../context/ProfileContext'
 
 // ==================== Fallback Data ====================
 
@@ -151,7 +152,15 @@ const fallbackAchievements = [
 
 // ==================== Hero Section ====================
 
-function HeroSection() {
+function HeroSection({ profile }) {
+  const firstName = profile.name?.split(' ')[0] || 'Rajnish'
+
+  const socialLinks = [
+    profile.socialLinks?.github && { icon: FaGithub, href: profile.socialLinks.github, label: 'GitHub' },
+    profile.socialLinks?.linkedin && { icon: FaLinkedin, href: profile.socialLinks.linkedin, label: 'LinkedIn' },
+    profile.email && { icon: FaEnvelope, href: `mailto:${profile.email}`, label: 'Email' },
+  ].filter(Boolean)
+
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16">
       {/* Animated background blobs */}
@@ -179,7 +188,7 @@ function HeroSection() {
           <h1 className="text-5xl md:text-7xl font-bold mb-6">
             <span className="text-gray-900 dark:text-white">Hi, I'm </span>
             <span className="bg-gradient-to-r from-primary via-primary-light to-secondary bg-clip-text text-transparent">
-              Rajnish
+              {firstName}
             </span>
           </h1>
 
@@ -189,7 +198,7 @@ function HeroSection() {
             transition={{ delay: 0.4 }}
             className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 mb-4 font-medium"
           >
-            Fullstack Developer & Infrastructure Engineer
+            {profile.title}
           </motion.p>
 
           <motion.p
@@ -198,9 +207,7 @@ function HeroSection() {
             transition={{ delay: 0.6 }}
             className="text-gray-500 dark:text-gray-400 text-lg max-w-2xl mx-auto mb-8"
           >
-            I build production-grade web applications with the MERN stack and engineer
-            self-hosted infrastructure — from home servers and NAS setups to
-            tunnel-based deployments that serve real users over the internet.
+            {profile.subtitle || profile.bio}
           </motion.p>
 
           <motion.div
@@ -224,29 +231,27 @@ function HeroSection() {
           </motion.div>
 
           {/* Social links */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1 }}
-            className="flex items-center justify-center gap-4 mt-10"
-          >
-            {[
-              { icon: FaGithub, href: 'https://github.com/rajnishfrost', label: 'GitHub' },
-              { icon: FaLinkedin, href: 'https://linkedin.com/in/rajnish-yadav', label: 'LinkedIn' },
-              { icon: FaEnvelope, href: 'mailto:rajnishfrost@gmail.com', label: 'Email' },
-            ].map(({ icon: Icon, href, label }) => (
-              <a
-                key={label}
-                href={href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-3 text-gray-500 dark:text-gray-400 hover:text-primary transition-colors rounded-full hover:bg-gray-100 dark:hover:bg-dark-lighter"
-                aria-label={label}
-              >
-                <Icon size={22} />
-              </a>
-            ))}
-          </motion.div>
+          {socialLinks.length > 0 && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1 }}
+              className="flex items-center justify-center gap-4 mt-10"
+            >
+              {socialLinks.map(({ icon: Icon, href, label }) => (
+                <a
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-3 text-gray-500 dark:text-gray-400 hover:text-primary transition-colors rounded-full hover:bg-gray-100 dark:hover:bg-dark-lighter"
+                  aria-label={label}
+                >
+                  <Icon size={22} />
+                </a>
+              ))}
+            </motion.div>
+          )}
         </motion.div>
 
       </div>
@@ -256,16 +261,17 @@ function HeroSection() {
 
 // ==================== About Section ====================
 
-function AboutSection() {
-  const techBadges = [
-    'React', 'Node.js', 'Express.js', 'MongoDB', 'TypeScript',
-    'Next.js', 'Linux', 'Nginx', 'Docker', 'Rathole', 'Cloudflare', 'Git'
-  ]
+function AboutSection({ profile }) {
+  const initials = profile.name
+    ?.split(' ')
+    .map((n) => n[0])
+    .join('')
+    .toUpperCase() || 'RY'
 
   return (
     <Section id="about" title="About Me" subtitle="A little bit about who I am and what I do">
       <div className="grid md:grid-cols-2 gap-12 items-center">
-        {/* Image placeholder */}
+        {/* Image / Initials */}
         <motion.div
           initial={{ opacity: 0, x: -30 }}
           whileInView={{ opacity: 1, x: 0 }}
@@ -274,12 +280,16 @@ function AboutSection() {
           className="relative"
         >
           <div className="w-full aspect-square max-w-md mx-auto rounded-2xl bg-gradient-to-br from-primary/20 via-secondary/20 to-accent/20 flex items-center justify-center overflow-hidden border border-gray-200 dark:border-dark-lighter">
-            <div className="text-center p-8">
-              <div className="text-7xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent mb-4">
-                RY
+            {profile.profileImage ? (
+              <img src={profile.profileImage} alt={profile.name} className="w-full h-full object-cover" />
+            ) : (
+              <div className="text-center p-8">
+                <div className="text-7xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent mb-4">
+                  {initials}
+                </div>
+                <p className="text-gray-500 dark:text-gray-400 text-sm">{profile.name}</p>
               </div>
-              <p className="text-gray-500 dark:text-gray-400 text-sm">Rajnish Yadav</p>
-            </div>
+            )}
           </div>
           {/* Decorative element */}
           <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-primary/10 rounded-2xl -z-10" />
@@ -293,29 +303,11 @@ function AboutSection() {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <p className="text-gray-600 dark:text-gray-300 leading-relaxed mb-4">
-            I'm a Fullstack Developer who works across the entire stack — from crafting
-            responsive React interfaces to building robust Node.js APIs backed by MongoDB.
-            I enjoy solving real problems and shipping products that people actually use.
-          </p>
-          <p className="text-gray-600 dark:text-gray-300 leading-relaxed mb-6">
-            Beyond web development, I'm deeply into self-hosted infrastructure. I've built
-            my own home server and NAS for media storage, tunnel traffic through Rathole to
-            expose local services to the internet, and bind custom domains to serve
-            full-stack apps from my own hardware. I believe in owning your stack end to end.
-          </p>
-
-          {/* Tech badges */}
-          <div className="flex flex-wrap gap-2">
-            {techBadges.map((tech) => (
-              <span
-                key={tech}
-                className="px-3 py-1.5 bg-gray-100 dark:bg-dark-lighter text-gray-700 dark:text-gray-300 text-sm font-medium rounded-lg border border-gray-200 dark:border-dark-lighter"
-              >
-                {tech}
-              </span>
-            ))}
-          </div>
+          {profile.bio && (
+            <p className="text-gray-600 dark:text-gray-300 leading-relaxed mb-6">
+              {profile.bio}
+            </p>
+          )}
         </motion.div>
       </div>
     </Section>
@@ -325,7 +317,7 @@ function AboutSection() {
 // ==================== Skills Section ====================
 
 function SkillsSection() {
-  const [activeTab, setActiveTab] = useState('Frontend')
+  const [activeTab, setActiveTab] = useState(null)
   const [apiSkills, setApiSkills] = useState(null)
 
   useEffect(() => {
@@ -345,7 +337,7 @@ function SkillsSection() {
 
   const skillsData = apiSkills || fallbackSkills
   const categories = Object.keys(skillsData)
-  const currentTab = categories.includes(activeTab) ? activeTab : categories[0] || 'Frontend'
+  const currentTab = (activeTab && categories.includes(activeTab)) ? activeTab : categories[0]
 
   return (
     <Section
@@ -577,6 +569,7 @@ function ContactCTASection() {
 // ==================== Main Home Page ====================
 
 export default function Home() {
+  const { profile } = useProfile()
   const [projects, setProjects] = useState(fallbackProjects)
   const [blogs, setBlogs] = useState(fallbackBlogs)
   const [experience, setExperience] = useState(fallbackExperience)
@@ -612,8 +605,8 @@ export default function Home() {
 
   return (
     <>
-      <HeroSection />
-      <AboutSection />
+      <HeroSection profile={profile} />
+      <AboutSection profile={profile} />
       <SkillsSection />
       <FeaturedProjectsSection projects={projects} />
       <ExperienceSection experience={experience} />

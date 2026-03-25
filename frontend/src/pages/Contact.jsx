@@ -4,8 +4,10 @@ import { FaEnvelope, FaGithub, FaLinkedin, FaPaperPlane, FaMapMarkerAlt } from '
 import toast from 'react-hot-toast'
 import Section from '../components/Section'
 import { submitContact } from '../services/api'
+import { useProfile } from '../context/ProfileContext'
 
 export default function Contact() {
+  const { profile } = useProfile()
   const [form, setForm] = useState({ name: '', email: '', subject: '', message: '' })
   const [errors, setErrors] = useState({})
   const [submitting, setSubmitting] = useState(false)
@@ -79,66 +81,74 @@ export default function Contact() {
             </div>
 
             <div className="space-y-4">
-              <a
-                href="mailto:rajnishfrost@gmail.com"
-                className="flex items-center gap-4 p-4 bg-white dark:bg-dark-card rounded-xl border border-gray-100 dark:border-dark-lighter hover:shadow-md transition-all group"
-              >
-                <div className="p-3 bg-primary/10 rounded-lg group-hover:bg-primary/20 transition-colors">
-                  <FaEnvelope className="text-primary" size={20} />
-                </div>
-                <div>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">Email</p>
-                  <p className="text-sm font-medium text-gray-900 dark:text-white">
-                    rajnishfrost@gmail.com
-                  </p>
-                </div>
-              </a>
+              {profile.email && (
+                <a
+                  href={`mailto:${profile.email}`}
+                  className="flex items-center gap-4 p-4 bg-white dark:bg-dark-card rounded-xl border border-gray-100 dark:border-dark-lighter hover:shadow-md transition-all group"
+                >
+                  <div className="p-3 bg-primary/10 rounded-lg group-hover:bg-primary/20 transition-colors">
+                    <FaEnvelope className="text-primary" size={20} />
+                  </div>
+                  <div>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">Email</p>
+                    <p className="text-sm font-medium text-gray-900 dark:text-white">
+                      {profile.email}
+                    </p>
+                  </div>
+                </a>
+              )}
 
-              <a
-                href="https://github.com/rajnishfrost"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-4 p-4 bg-white dark:bg-dark-card rounded-xl border border-gray-100 dark:border-dark-lighter hover:shadow-md transition-all group"
-              >
-                <div className="p-3 bg-primary/10 rounded-lg group-hover:bg-primary/20 transition-colors">
-                  <FaGithub className="text-primary" size={20} />
-                </div>
-                <div>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">GitHub</p>
-                  <p className="text-sm font-medium text-gray-900 dark:text-white">
-                    rajnishfrost
-                  </p>
-                </div>
-              </a>
+              {profile.socialLinks?.github && (
+                <a
+                  href={profile.socialLinks.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-4 p-4 bg-white dark:bg-dark-card rounded-xl border border-gray-100 dark:border-dark-lighter hover:shadow-md transition-all group"
+                >
+                  <div className="p-3 bg-primary/10 rounded-lg group-hover:bg-primary/20 transition-colors">
+                    <FaGithub className="text-primary" size={20} />
+                  </div>
+                  <div>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">GitHub</p>
+                    <p className="text-sm font-medium text-gray-900 dark:text-white">
+                      {profile.socialLinks.github.replace('https://github.com/', '')}
+                    </p>
+                  </div>
+                </a>
+              )}
 
-              <a
-                href="https://linkedin.com/in/rajnish-yadav"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-4 p-4 bg-white dark:bg-dark-card rounded-xl border border-gray-100 dark:border-dark-lighter hover:shadow-md transition-all group"
-              >
-                <div className="p-3 bg-primary/10 rounded-lg group-hover:bg-primary/20 transition-colors">
-                  <FaLinkedin className="text-primary" size={20} />
-                </div>
-                <div>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">LinkedIn</p>
-                  <p className="text-sm font-medium text-gray-900 dark:text-white">
-                    rajnish-yadav
-                  </p>
-                </div>
-              </a>
+              {profile.socialLinks?.linkedin && (
+                <a
+                  href={profile.socialLinks.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-4 p-4 bg-white dark:bg-dark-card rounded-xl border border-gray-100 dark:border-dark-lighter hover:shadow-md transition-all group"
+                >
+                  <div className="p-3 bg-primary/10 rounded-lg group-hover:bg-primary/20 transition-colors">
+                    <FaLinkedin className="text-primary" size={20} />
+                  </div>
+                  <div>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">LinkedIn</p>
+                    <p className="text-sm font-medium text-gray-900 dark:text-white">
+                      {profile.socialLinks.linkedin.replace(/https?:\/\/(www\.)?linkedin\.com\/in\//, '').replace(/\/$/, '')}
+                    </p>
+                  </div>
+                </a>
+              )}
 
-              <div className="flex items-center gap-4 p-4 bg-white dark:bg-dark-card rounded-xl border border-gray-100 dark:border-dark-lighter">
-                <div className="p-3 bg-primary/10 rounded-lg">
-                  <FaMapMarkerAlt className="text-primary" size={20} />
+              {profile.location && (
+                <div className="flex items-center gap-4 p-4 bg-white dark:bg-dark-card rounded-xl border border-gray-100 dark:border-dark-lighter">
+                  <div className="p-3 bg-primary/10 rounded-lg">
+                    <FaMapMarkerAlt className="text-primary" size={20} />
+                  </div>
+                  <div>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">Location</p>
+                    <p className="text-sm font-medium text-gray-900 dark:text-white">
+                      {profile.location}
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">Location</p>
-                  <p className="text-sm font-medium text-gray-900 dark:text-white">
-                    India
-                  </p>
-                </div>
-              </div>
+              )}
             </div>
           </motion.div>
 

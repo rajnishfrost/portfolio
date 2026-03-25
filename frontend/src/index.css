@@ -44,6 +44,24 @@ body {
   background: #6366f1;
 }
 
+/* Thin scrollbar for card descriptions */
+.scrollbar-thin::-webkit-scrollbar {
+  width: 3px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+
+.dark .scrollbar-thin::-webkit-scrollbar-thumb {
+  background: #475569;
+}
+
+.scrollbar-thin {
+  scrollbar-width: thin;
+}
+
 /* Floating blobs animation for hero */
 @keyframes blob {
   0% { transform: translate(0, 0) scale(1); }

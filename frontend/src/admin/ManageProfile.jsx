@@ -5,7 +5,7 @@ import { getProfile, updateProfile, uploadImage } from '../services/api'
 
 export default function ManageProfile() {
   const [form, setForm] = useState({
-    name: '', title: '', subtitle: '', bio: '', email: '', phone: '',
+    name: '', title: '', subtitle: '', bio: '', email: '', phone: '', location: '',
     resumeLink: '', profileImage: '', isHireable: true,
     socialLinks: { github: '', linkedin: '', medium: '', twitter: '' },
   })
@@ -24,6 +24,7 @@ export default function ManageProfile() {
             bio: res.data.bio || '',
             email: res.data.email || '',
             phone: res.data.phone || '',
+            location: res.data.location || '',
             resumeLink: res.data.resumeLink || '',
             profileImage: res.data.profileImage || '',
             isHireable: res.data.isHireable ?? true,
@@ -52,7 +53,7 @@ export default function ManageProfile() {
     if (!file) return
     try {
       const res = await uploadImage(file)
-      setForm((p) => ({ ...p, profileImage: res.data.url || res.data.path }))
+      setForm((p) => ({ ...p, profileImage: res.data.imageUrl || res.data.url || res.data.path }))
       toast.success('Avatar uploaded')
     } catch { toast.error('Upload failed') }
   }
@@ -119,6 +120,10 @@ export default function ManageProfile() {
             <div>
               <label className={labelClass}>Phone</label>
               <input name="phone" value={form.phone} onChange={handleChange} placeholder="+91 XXXXX XXXXX" className={inputClass} />
+            </div>
+            <div>
+              <label className={labelClass}>Location</label>
+              <input name="location" value={form.location} onChange={handleChange} placeholder="e.g. India" className={inputClass} />
             </div>
             <div className="md:col-span-2">
               <label className={labelClass}>Bio</label>

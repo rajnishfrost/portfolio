@@ -42,6 +42,7 @@ export const getMe = () => api.get('/auth/me')
 export const createProject = (data) => api.post('/projects', data)
 export const updateProject = (id, data) => api.put(`/projects/${id}`, data)
 export const deleteProject = (id) => api.delete(`/projects/${id}`)
+export const reorderProjects = (orderedIds) => api.put('/projects/reorder', { orderedIds })
 
 // Blogs
 export const createBlog = (data) => api.post('/blogs', data)

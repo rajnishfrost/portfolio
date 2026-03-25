@@ -1,6 +1,11 @@
 import { motion } from 'framer-motion'
 import { FaGithub, FaExternalLinkAlt } from 'react-icons/fa'
 
+function ensureUrl(url) {
+  if (!url) return url
+  return url.match(/^https?:\/\//) ? url : `https://${url}`
+}
+
 export default function ProjectCard({ project, index = 0 }) {
   return (
     <motion.div
@@ -30,7 +35,7 @@ export default function ProjectCard({ project, index = 0 }) {
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-4 gap-3">
           {project.githubUrl && (
             <a
-              href={project.githubUrl}
+              href={ensureUrl(project.githubUrl)}
               target="_blank"
               rel="noopener noreferrer"
               className="p-2 bg-white/20 backdrop-blur-sm rounded-full text-white hover:bg-white/40 transition-colors"
@@ -40,7 +45,7 @@ export default function ProjectCard({ project, index = 0 }) {
           )}
           {project.liveUrl && (
             <a
-              href={project.liveUrl}
+              href={ensureUrl(project.liveUrl)}
               target="_blank"
               rel="noopener noreferrer"
               className="p-2 bg-white/20 backdrop-blur-sm rounded-full text-white hover:bg-white/40 transition-colors"
@@ -62,9 +67,11 @@ export default function ProjectCard({ project, index = 0 }) {
         <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2 group-hover:text-primary transition-colors">
           {project.title}
         </h3>
-        <p className="text-gray-600 dark:text-gray-400 text-sm mb-4 line-clamp-2">
-          {project.description}
-        </p>
+        <div className="max-h-[3rem] overflow-y-auto mb-4 scrollbar-thin">
+          <p className="text-gray-600 dark:text-gray-400 text-sm">
+            {project.description}
+          </p>
+        </div>
         {/* Tech stack tags */}
         <div className="flex flex-wrap gap-2">
           {project.techStack?.map((tech, i) => (

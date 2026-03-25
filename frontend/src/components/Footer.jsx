@@ -1,19 +1,22 @@
 import { FaGithub, FaLinkedin, FaEnvelope, FaHeart } from 'react-icons/fa'
-
-const socialLinks = [
-  { icon: FaGithub, href: 'https://github.com/rajnishfrost', label: 'GitHub' },
-  { icon: FaLinkedin, href: 'https://linkedin.com/in/rajnish-yadav', label: 'LinkedIn' },
-  { icon: FaEnvelope, href: 'mailto:rajnishfrost@gmail.com', label: 'Email' },
-]
+import { useProfile } from '../context/ProfileContext'
 
 export default function Footer() {
+  const { profile } = useProfile()
+
+  const socialLinks = [
+    profile.socialLinks?.github && { icon: FaGithub, href: profile.socialLinks.github, label: 'GitHub' },
+    profile.socialLinks?.linkedin && { icon: FaLinkedin, href: profile.socialLinks.linkedin, label: 'LinkedIn' },
+    profile.email && { icon: FaEnvelope, href: `mailto:${profile.email}`, label: 'Email' },
+  ].filter(Boolean)
+
   return (
     <footer className="bg-white dark:bg-dark border-t border-gray-200 dark:border-dark-lighter">
       <div className="max-w-6xl mx-auto px-4 py-8">
         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
           {/* Left: copyright */}
           <p className="text-gray-600 dark:text-gray-400 text-sm">
-            &copy; {new Date().getFullYear()} Rajnish Yadav. All rights reserved.
+            &copy; {new Date().getFullYear()} {profile.name}. All rights reserved.
           </p>
 
           {/* Center: social links */}

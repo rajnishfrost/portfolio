@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node -e \":*)",
+      "Bash(node -e 'const si = require\\(\"\"react-icons/si\"\"\\); const names = [\"\"SiCsharp\"\",\"\"SiCplusplus\"\",\"\"SiSolid\"\",\"\"SiMariadb\"\",\"\"SiInsomnia\"\",\"\"SiObsidian\"\",\"\"SiPlaywright\"\",\"\"SiVitest\"\",\"\"SiPnpm\"\",\"\"SiBun\"\",\"\"SiDeno\"\",\"\"SiRollup\"\",\"\"SiAstro\"\",\"\"SiRemix\"\",\"\"SiNuxtdotjs\"\"]; names.forEach\\(n => console.log\\(n, !!si[n]\\)\\)')",
+      "Bash(node -e \"const si = require\\(''react-icons/si''\\); const names = [''SiCsharp'',''SiCplusplus'',''SiSolid'',''SiMariadb'',''SiInsomnia'',''SiObsidian'',''SiPlaywright'',''SiVitest'',''SiPnpm'',''SiBun'',''SiDeno'',''SiRollup'',''SiAstro'',''SiRemix'',''SiNuxtdotjs'']; names.forEach\\(function\\(n\\) { console.log\\(n, n in si\\) }\\)\")",
+      "Bash(node -e \"const si = require\\(''react-icons/si''\\); const keys = Object.keys\\(si\\); console.log\\(keys.filter\\(function\\(k\\) { return k.toLowerCase\\(\\).includes\\(''csharp''\\) || k.toLowerCase\\(\\).includes\\(''nuxt''\\) || k.toLowerCase\\(\\).includes\\(''playwright''\\) || k.toLowerCase\\(\\).includes\\(''rollup''\\) }\\).join\\(''\\\\n''\\)\\)\")",
+      "Bash(node -e \"const fa = require\\(''react-icons/fa''\\); const names = [''FaSlack'',''FaTrello'',''FaShopify'',''FaStripe'',''FaCentos'',''FaLess'',''FaFigma'']; names.forEach\\(function\\(n\\) { console.log\\(n, n in fa\\) }\\)\")",
+      "Bash(node -e \"const si = require\\(''react-icons/si''\\); const names = [''SiSolidity'',''SiTypescript'',''SiJavascript'',''SiNextdotjs'',''SiTailwindcss'',''SiMongodb'',''SiPostgresql'',''SiRedis'',''SiGraphql'',''SiWeb3Dotjs'',''SiExpress'',''SiNginx'',''SiKubernetes'',''SiGo'',''SiCplusplus'',''SiFlutter'',''SiDart'',''SiKotlin'',''SiScala'',''SiElixir'',''SiHaskell'',''SiFirebase'',''SiSupabase'',''SiPrisma'',''SiMysql'',''SiSqlite'',''SiMariadb'',''SiVercel'',''SiNetlify'',''SiHeroku'',''SiDigitalocean'',''SiCloudflare'',''SiTerraform'',''SiAnsible'',''SiPrometheus'',''SiGrafana'',''SiElasticsearch'',''SiApachekafka'',''SiRabbitmq'',''SiVite'',''SiWebpack'',''SiRollupdotjs'',''SiStorybook'',''SiJest'',''SiCypress'',''SiVitest'',''SiSvelte'',''SiAstro'',''SiRemix'',''SiNuxt'',''SiSolid'',''SiPnpm'',''SiBun'',''SiDeno'',''SiRaspberrypi'',''SiArduino'',''SiPostman'',''SiInsomnia'',''SiSwagger'',''SiNotion'',''SiObsidian'']; var missing = names.filter\\(function\\(n\\) { return !\\(n in si\\) }\\); if \\(missing.length\\) console.log\\(''MISSING:'', missing.join\\('', ''\\)\\); else console.log\\(''ALL OK''\\)\")",
+      "Bash(node:*)",
+      "Bash(npx vite:*)",
+      "Bash(npm install:*)"
+    ]
+  }
+}
