@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const helmet = require('helmet');
 const path = require('path');
 require('dotenv').config();
 
@@ -10,13 +11,33 @@ connectDB();
 
 const app = express();
 
-// CORS configuration
-app.use(
-  cors({
-    origin: process.env.NODE_ENV === 'production' ? process.env.CLIENT_URL : '*',
-    credentials: true,
-  })
-);
+// Security middleware
+// First-party origins only. Override with CORS_ORIGINS env (comma-separated) if needed.
+const allowedOrigins = process.env.CORS_ORIGINS
+  ? process.env.CORS_ORIGINS.split(',').map((o) => o.trim())
+  : [
+      'https://lackoff.com',
+      'https://myhabits.lackoff.com',
+      'https://storage.lackoff.com',
+      'https://familytrees.lackoff.com',
+      'https://rj.lackoff.com',
+      'http://localhost:3000',
+      'http://localhost:3001',
+      'http://localhost:3002',
+      'http://localhost:3003',
+      'http://localhost:3004',
+    ];
+const corsOptions = {
+  origin(origin, cb) {
+    // allow non-browser callers (curl, server-to-server) that send no Origin
+    if (!origin || allowedOrigins.includes(origin)) return cb(null, true);
+    return cb(new Error(`CORS blocked: ${origin}`));
+  },
+  credentials: true,
+};
+
+app.use(helmet({ crossOriginResourcePolicy: { policy: 'cross-origin' } }));
+app.use(cors(corsOptions));
 
 // Body parsing middleware
 app.use(express.json({ limit: '10mb' }));
@@ -57,8 +78,8 @@ app.use((req, res) => {
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+app.listen(PORT, '127.0.0.1', () => {
+  console.log(`Server running on port ${PORT} (localhost only, behind nginx)`);
 });
 
 module.exports = app;
