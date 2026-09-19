@@ -6,6 +6,7 @@ export default defineConfig({
   plugins: [react(), tailwindcss()],
   server: {
     port: 3004,
+    allowedHosts: ['rj.lackoff.com'],
     proxy: {
       '/api': 'http://localhost:4004',
       '/uploads': 'http://localhost:4004',

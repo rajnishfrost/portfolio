@@ -6,18 +6,21 @@ const AchievementSchema = new mongoose.Schema({
     required: [true, 'Achievement title is required'],
     trim: true,
   },
-  subtitle: {
+  description: {
     type: String,
     trim: true,
+  },
+  date: {
+    type: Date,
   },
   image: {
     type: String,
     default: '',
   },
-  links: [{
-    name: { type: String, trim: true },
-    url: { type: String, trim: true },
-  }],
+  link: {
+    type: String,
+    trim: true,
+  },
   order: {
     type: Number,
     default: 0,

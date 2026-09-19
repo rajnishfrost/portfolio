@@ -130,7 +130,7 @@ export default function Contact() {
                   <div>
                     <p className="text-xs text-gray-500 dark:text-gray-400">LinkedIn</p>
                     <p className="text-sm font-medium text-gray-900 dark:text-white">
-                      {profile.socialLinks.linkedin.replace(/https?:\/\/(www\.)?linkedin\.com\/in\//, '').replace(/\/$/, '')}
+                      rajnishfrost
                     </p>
                   </div>
                 </a>

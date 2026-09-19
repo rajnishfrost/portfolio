@@ -3,8 +3,9 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { FaPlus, FaEdit, FaTrash, FaTimes } from 'react-icons/fa'
 import toast from 'react-hot-toast'
 import { getBlogs, createBlog, updateBlog, deleteBlog, uploadImage } from '../services/api'
+import ImageCropper from '../components/ImageCropper'
 
-const emptyForm = { title: '', description: '', link: '', tags: '', image: '' }
+const emptyForm = { title: '', description: '', url: '', tags: '', image: '' }
 
 export default function ManageBlogs() {
   const [blogs, setBlogs] = useState([])
@@ -14,6 +15,8 @@ export default function ManageBlogs() {
   const [form, setForm] = useState(emptyForm)
   const [submitting, setSubmitting] = useState(false)
   const [deleteId, setDeleteId] = useState(null)
+  const [cropImage, setCropImage] = useState(null)
+  const [imageUploading, setImageUploading] = useState(false)
 
   const fetchData = async () => {
     try {
@@ -30,21 +33,34 @@ export default function ManageBlogs() {
     setEditing(blog._id)
     setForm({
       title: blog.title || '', description: blog.description || '',
-      link: blog.link || '', tags: (blog.tags || []).join(', '), image: blog.image || '',
+      url: blog.url || blog.link || '', tags: (blog.tags || []).join(', '), image: blog.image || '',
     })
     setShowModal(true)
   }
 
   const handleChange = (e) => setForm((p) => ({ ...p, [e.target.name]: e.target.value }))
 
-  const handleImageUpload = async (e) => {
+  const handleImageSelect = (e) => {
     const file = e.target.files[0]
     if (!file) return
+    const reader = new FileReader()
+    reader.onload = () => setCropImage(reader.result)
+    reader.readAsDataURL(file)
+    e.target.value = ''
+  }
+
+  const handleCropDone = async (croppedFile) => {
+    setCropImage(null)
+    setImageUploading(true)
     try {
-      const res = await uploadImage(file)
-      setForm((p) => ({ ...p, image: res.data.url || res.data.path }))
+      const res = await uploadImage(croppedFile)
+      setForm((p) => ({ ...p, image: res.data.imageUrl || res.data.url || res.data.path }))
       toast.success('Image uploaded')
-    } catch { toast.error('Image upload failed') }
+    } catch (err) {
+      toast.error(err.response?.data?.message || 'Image upload failed')
+    } finally {
+      setImageUploading(false)
+    }
   }
 
   const handleSubmit = async (e) => {
@@ -101,7 +117,7 @@ export default function ManageBlogs() {
                     </div>
                   </td>
                   <td className="px-4 py-3 hidden sm:table-cell">
-                    {blog.link && <a href={blog.link} target="_blank" rel="noopener noreferrer" className="text-primary text-xs hover:underline">View</a>}
+                    {(blog.url || blog.link) && <a href={blog.url || blog.link} target="_blank" rel="noopener noreferrer" className="text-primary text-xs hover:underline">View</a>}
                   </td>
                   <td className="px-4 py-3 text-right">
                     <div className="flex items-center justify-end gap-2">
@@ -137,7 +153,7 @@ export default function ManageBlogs() {
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">External Link</label>
-                  <input name="link" value={form.link} onChange={handleChange} className="w-full px-3 py-2.5 rounded-lg bg-gray-50 dark:bg-dark-lighter border border-gray-200 dark:border-dark-lighter text-gray-900 dark:text-white focus:ring-2 focus:ring-primary focus:outline-none" />
+                  <input name="url" value={form.url} onChange={handleChange} className="w-full px-3 py-2.5 rounded-lg bg-gray-50 dark:bg-dark-lighter border border-gray-200 dark:border-dark-lighter text-gray-900 dark:text-white focus:ring-2 focus:ring-primary focus:outline-none" />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Tags (comma separated)</label>
@@ -145,13 +161,22 @@ export default function ManageBlogs() {
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Image</label>
-                  <input type="file" accept="image/*" onChange={handleImageUpload} className="w-full text-sm text-gray-500 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-primary/10 file:text-primary file:font-medium hover:file:bg-primary/20 cursor-pointer" />
-                  {form.image && <img src={form.image} alt="Preview" className="mt-2 w-20 h-20 object-cover rounded-lg" />}
+                  <input type="file" accept="image/*" onChange={handleImageSelect} className="w-full text-sm text-gray-500 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-primary/10 file:text-primary file:font-medium hover:file:bg-primary/20 cursor-pointer" />
+                  {imageUploading && <p className="mt-2 text-xs text-gray-500">Uploading...</p>}
+                  {form.image && !imageUploading && <img src={form.image} alt="Preview" className="mt-2 w-32 h-20 object-cover rounded-lg" />}
                 </div>
                 <button type="submit" disabled={submitting} className="w-full py-2.5 bg-primary text-white font-medium rounded-lg hover:bg-primary-dark transition-colors disabled:opacity-60">
                   {submitting ? 'Saving...' : editing ? 'Update Blog' : 'Create Blog'}
                 </button>
               </form>
+              {cropImage && (
+                <ImageCropper
+                  imageSrc={cropImage}
+                  aspect={16 / 9}
+                  onCropDone={handleCropDone}
+                  onCancel={() => setCropImage(null)}
+                />
+              )}
             </motion.div>
           </motion.div>
         )}

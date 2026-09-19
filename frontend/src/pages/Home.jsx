@@ -457,9 +457,17 @@ function ExperienceSection({ experience }) {
                 </span>
               </div>
               <p className="text-primary font-semibold text-sm mb-2">{exp.company}</p>
-              <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">
-                {exp.description}
-              </p>
+              {exp.description && exp.description.includes('•') ? (
+                <ul className="list-disc pl-5 text-gray-600 dark:text-gray-400 text-sm leading-relaxed space-y-1">
+                  {exp.description.split('•').filter(item => item.trim()).map((item, idx) => (
+                    <li key={idx}>{item.trim()}</li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">
+                  {exp.description}
+                </p>
+              )}
             </div>
           </motion.div>
         ))}
@@ -487,12 +495,31 @@ function AchievementsSection({ achievements }) {
             transition={{ duration: 0.4, delay: i * 0.1 }}
             className="bg-white dark:bg-dark-card p-6 rounded-2xl shadow-md border border-gray-100 dark:border-dark-lighter hover:shadow-lg transition-shadow group"
           >
-            <div className="w-12 h-12 bg-accent/10 rounded-xl flex items-center justify-center mb-4 group-hover:bg-accent/20 transition-colors">
-              <FaTrophy className="text-accent text-xl" />
-            </div>
+            {item.image ? (
+              item.link ? (
+                <a href={item.link} target="_blank" rel="noopener noreferrer" className="block mb-4 overflow-hidden rounded-xl">
+                  <img src={item.image} alt={item.title} className="w-full h-40 object-cover hover:scale-105 transition-transform duration-300" />
+                </a>
+              ) : (
+                <img src={item.image} alt={item.title} className="w-full h-40 object-cover rounded-xl mb-4" />
+              )
+            ) : (
+              <div className="w-12 h-12 bg-accent/10 rounded-xl flex items-center justify-center mb-4 group-hover:bg-accent/20 transition-colors">
+                <FaTrophy className="text-accent text-xl" />
+              </div>
+            )}
             <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">
-              {item.title}
+              {item.link ? (
+                <a href={item.link} target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">
+                  {item.title}
+                </a>
+              ) : item.title}
             </h3>
+            {item.date && (
+              <p className="text-xs text-gray-400 dark:text-gray-500 mb-2">
+                {new Date(item.date).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
+              </p>
+            )}
             <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">
               {item.description}
             </p>

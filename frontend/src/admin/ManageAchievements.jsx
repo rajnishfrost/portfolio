@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { FaPlus, FaEdit, FaTrash, FaTimes } from 'react-icons/fa'
 import toast from 'react-hot-toast'
 import { getAchievements, createAchievement, updateAchievement, deleteAchievement, uploadImage } from '../services/api'
+import ImageCropper from '../components/ImageCropper'
 
 const emptyForm = { title: '', description: '', date: '', image: '', link: '' }
 
@@ -14,6 +15,8 @@ export default function ManageAchievements() {
   const [form, setForm] = useState(emptyForm)
   const [submitting, setSubmitting] = useState(false)
   const [deleteId, setDeleteId] = useState(null)
+  const [cropImage, setCropImage] = useState(null)
+  const [imageUploading, setImageUploading] = useState(false)
 
   const fetchData = async () => {
     try { const res = await getAchievements(); setItems(res.data || []) }
@@ -35,14 +38,24 @@ export default function ManageAchievements() {
 
   const handleChange = (e) => setForm((p) => ({ ...p, [e.target.name]: e.target.value }))
 
-  const handleImageUpload = async (e) => {
+  const handleImageSelect = (e) => {
     const file = e.target.files[0]
     if (!file) return
+    const reader = new FileReader()
+    reader.onload = () => setCropImage(reader.result)
+    reader.readAsDataURL(file)
+    e.target.value = ''
+  }
+
+  const handleCropDone = async (croppedFile) => {
+    setCropImage(null)
+    setImageUploading(true)
     try {
-      const res = await uploadImage(file)
-      setForm((p) => ({ ...p, image: res.data.url || res.data.path }))
+      const res = await uploadImage(croppedFile)
+      setForm((p) => ({ ...p, image: res.data.imageUrl || res.data.url || res.data.path }))
       toast.success('Image uploaded')
     } catch { toast.error('Upload failed') }
+    finally { setImageUploading(false) }
   }
 
   const handleSubmit = async (e) => {
@@ -119,13 +132,22 @@ export default function ManageAchievements() {
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Image</label>
-                  <input type="file" accept="image/*" onChange={handleImageUpload} className="w-full text-sm text-gray-500 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-primary/10 file:text-primary file:font-medium hover:file:bg-primary/20 cursor-pointer" />
-                  {form.image && <img src={form.image} alt="Preview" className="mt-2 w-20 h-20 object-cover rounded-lg" />}
+                  <input type="file" accept="image/*" onChange={handleImageSelect} className="w-full text-sm text-gray-500 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-primary/10 file:text-primary file:font-medium hover:file:bg-primary/20 cursor-pointer" />
+                  {imageUploading && <p className="mt-2 text-xs text-gray-500">Uploading...</p>}
+                  {form.image && !imageUploading && <img src={form.image} alt="Preview" className="mt-2 w-32 h-20 object-cover rounded-lg" />}
                 </div>
                 <button type="submit" disabled={submitting} className="w-full py-2.5 bg-primary text-white font-medium rounded-lg hover:bg-primary-dark transition-colors disabled:opacity-60">
                   {submitting ? 'Saving...' : editing ? 'Update' : 'Create'}
                 </button>
               </form>
+              {cropImage && (
+                <ImageCropper
+                  imageSrc={cropImage}
+                  aspect={16 / 9}
+                  onCropDone={handleCropDone}
+                  onCancel={() => setCropImage(null)}
+                />
+              )}
             </motion.div>
           </motion.div>
         )}

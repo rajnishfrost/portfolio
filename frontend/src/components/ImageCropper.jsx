@@ -2,15 +2,24 @@ import { useState, useCallback } from 'react'
 import Cropper from 'react-easy-crop'
 import { FaSearchPlus, FaSearchMinus, FaCrop, FaTimes } from 'react-icons/fa'
 
+const MAX_OUTPUT_WIDTH = 1600
+const JPEG_QUALITY = 0.82
+
 function getCroppedImg(imageSrc, pixelCrop) {
   return new Promise((resolve) => {
     const image = new Image()
     image.crossOrigin = 'anonymous'
     image.onload = () => {
+      const scale = pixelCrop.width > MAX_OUTPUT_WIDTH ? MAX_OUTPUT_WIDTH / pixelCrop.width : 1
+      const outW = Math.round(pixelCrop.width * scale)
+      const outH = Math.round(pixelCrop.height * scale)
+
       const canvas = document.createElement('canvas')
-      canvas.width = pixelCrop.width
-      canvas.height = pixelCrop.height
+      canvas.width = outW
+      canvas.height = outH
       const ctx = canvas.getContext('2d')
+      ctx.imageSmoothingEnabled = true
+      ctx.imageSmoothingQuality = 'high'
 
       ctx.drawImage(
         image,
@@ -20,13 +29,13 @@ function getCroppedImg(imageSrc, pixelCrop) {
         pixelCrop.height,
         0,
         0,
-        pixelCrop.width,
-        pixelCrop.height
+        outW,
+        outH
       )
 
       canvas.toBlob((blob) => {
         resolve(blob)
-      }, 'image/jpeg', 0.92)
+      }, 'image/jpeg', JPEG_QUALITY)
     }
     image.src = imageSrc
   })

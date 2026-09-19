@@ -9,7 +9,8 @@
       "Bash(node -e \"const si = require\\(''react-icons/si''\\); const names = [''SiSolidity'',''SiTypescript'',''SiJavascript'',''SiNextdotjs'',''SiTailwindcss'',''SiMongodb'',''SiPostgresql'',''SiRedis'',''SiGraphql'',''SiWeb3Dotjs'',''SiExpress'',''SiNginx'',''SiKubernetes'',''SiGo'',''SiCplusplus'',''SiFlutter'',''SiDart'',''SiKotlin'',''SiScala'',''SiElixir'',''SiHaskell'',''SiFirebase'',''SiSupabase'',''SiPrisma'',''SiMysql'',''SiSqlite'',''SiMariadb'',''SiVercel'',''SiNetlify'',''SiHeroku'',''SiDigitalocean'',''SiCloudflare'',''SiTerraform'',''SiAnsible'',''SiPrometheus'',''SiGrafana'',''SiElasticsearch'',''SiApachekafka'',''SiRabbitmq'',''SiVite'',''SiWebpack'',''SiRollupdotjs'',''SiStorybook'',''SiJest'',''SiCypress'',''SiVitest'',''SiSvelte'',''SiAstro'',''SiRemix'',''SiNuxt'',''SiSolid'',''SiPnpm'',''SiBun'',''SiDeno'',''SiRaspberrypi'',''SiArduino'',''SiPostman'',''SiInsomnia'',''SiSwagger'',''SiNotion'',''SiObsidian'']; var missing = names.filter\\(function\\(n\\) { return !\\(n in si\\) }\\); if \\(missing.length\\) console.log\\(''MISSING:'', missing.join\\('', ''\\)\\); else console.log\\(''ALL OK''\\)\")",
       "Bash(node:*)",
       "Bash(npx vite:*)",
-      "Bash(npm install:*)"
+      "Bash(npm install:*)",
+      "WebFetch(domain:www.linkedin.com)"
     ]
   }
 }
